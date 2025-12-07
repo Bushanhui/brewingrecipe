@@ -3,10 +3,13 @@
 <head>
   <title>휘뚜루마뚜루 브루잉 계산기</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
   <style>
     .hero-image {
       background-image: url('https://source.unsplash.com/random/630x420/?coffee,brewing');
@@ -16,23 +19,7 @@
       height: 28vh;
       margin-bottom: 50px;
     }
-  </style>
-</head>
-  
-<body>
-    <div class="container-fluid p-0">
-      <div class="hero-image"></div>
-    </div>
-  </body>
 
-
-<head>
-     
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  
-  <style>
     body {
       font-family: 'Pretendard', sans-serif;
       background-color: #0000009a;
@@ -44,14 +31,11 @@
       padding: 30px;
       border-radius: 5px;
       box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 40px;
     }
 
     .form-group {
       margin-bottom: 15px;
-    }
-
-    label {
-      font-weight: bold;
     }
 
     input[type="number"] {
@@ -70,19 +54,16 @@
       cursor: pointer;
     }
 
-    
-    
     .results {
       display: flex;
-        flex-direction: column;
-        margin-top: 50px;
-        background-color: #fff;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-      }
-    
+      flex-direction: column;
+      margin-top: 50px;
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    }
 
     .results h2 {
       margin-bottom: 15px;
@@ -99,20 +80,22 @@
     .results li {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 5px;
-    }
-
-    .results li span {
-      font-weight: bold;
+      margin-bottom: 8px;
     }
   </style>
 </head>
+
 <body>
-  
+
+  <div class="container-fluid p-0">
+    <div class="hero-image"></div>
+  </div>
+
+  <!-- 입력 폼 -->
   <form id="coffee-form">
     <div class="form-group">
       <label for="bean-input">🟤 Coffee Bean Weight (g)</label>
-      <input type="number" id="bean-input" required>
+      <input type="number" id="bean-input" step="0.1" min="0" required>
     </div>
 
     <div class="form-group">
@@ -123,6 +106,7 @@
     <button type="submit">Calculate</button>
   </form>
 
+  <!-- 결과 -->
   <div class="results">
     <h2>Results</h2>
 
@@ -133,9 +117,6 @@
       <li>
         🌒 Bloom : <span id="blooming-amount"></span>
       </li>
-      
-       <span id="brew-amount"></span>
-      
       <li>
         🌓 First Pour : <span id="first-brew"></span>
       </li>
@@ -148,65 +129,59 @@
     </ul>
   </div>
 
+  <!-- 스크립트 -->
   <script>
     const form = document.getElementById('coffee-form');
-  
+
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-  
-      const beanInput = document.getElementById('bean-input');
-      const ratioInput = document.getElementById('ratio-input');
-  
-      // 결과를 출력할 div 요소 선택
-      const results = document.querySelector('.results');
-  
-      // 각각의 결과를 출력할 span 요소 선택
-      const totalBrewResult = results.querySelector('#total-brew');
-      const bloomingAmountResult = results.querySelector('#blooming-amount');
-      const brewAmountResult = results.querySelector('#brew-amount');
-      const firstBrewResult = results.querySelector('#first-brew');
-      const secondBrewResult = results.querySelector('#second-brew');
-      const thirdBrewResult = results.querySelector('#third-brew');
-  
-      // 입력된 값 가져오기
-      const beanWeight = parseFloat(beanInput.value);
-      const ratio = parseFloat(ratioInput.value);
-  
-      // 계산 (원래 방식 유지)
+
+      const beanWeight = parseFloat(document.getElementById('bean-input').value);
+      const ratio = parseFloat(document.getElementById('ratio-input').value);
+
+      const totalBrewResult = document.getElementById('total-brew');
+      const bloomingAmountResult = document.getElementById('blooming-amount');
+      const firstBrewResult = document.getElementById('first-brew');
+      const secondBrewResult = document.getElementById('second-brew');
+      const thirdBrewResult = document.getElementById('third-brew');
+
+      // 기존 계산 로직 유지
       const totalBrew = Math.round(beanWeight * ratio * 10) / 10;
       const bloomingAmount = Math.round(beanWeight * 3 * 10) / 10;
       const brewAmount = Math.round((totalBrew - beanWeight * 3) / 3);
       const secondBrewRounded = Math.round(brewAmount * 10) / 10;
-  
+
       const secondBrew =
         beanWeight >= 30
           ? Math.round((secondBrewRounded - 20) / 10) * 10
           : Math.round((secondBrewRounded - 10) / 10) * 10;
-  
+
       const firstBrew = Math.round(brewAmount + (brewAmount - secondBrew));
       const thirdBrew = Math.round((totalBrew - beanWeight * 3) / 3);
-  
-      // 출력 시 소수점 둘째 자리 처리
+
+      // 소수점 두 자리 formatting
       const fmt = (v) => Number(v).toFixed(2);
-  
-      // 결과 출력
+
       totalBrewResult.textContent = fmt(totalBrew) + " g";
       bloomingAmountResult.textContent = fmt(bloomingAmount) + " g";
-      brewAmountResult.textContent = fmt(brewAmount) + " g";
       firstBrewResult.textContent = fmt(firstBrew) + " g";
       secondBrewResult.textContent = fmt(secondBrew) + " g";
       thirdBrewResult.textContent = fmt(thirdBrew) + " g";
     });
   </script>
 
+  <div style="font-size: smaller; color: black; padding: 40px 0;">
+    <p><strong>🤷‍♀️ 계산 로직</strong></p>
+    <p>Bloom = 원두량의 3배</p>
+    <p>First Pour = (Total – Bloom) / 3 + 보정값</p>
+    <p>Second Pour = (Total – Bloom) / 3 을 반올림 후 원두가 30g 이상이면 -20g / 미만이면 -10g</p>
+    <p>Third Pour = (Total – Bloom) / 3</p>
+  </div>
 
-<div style="font-size: smaller; color: black; padding: 40px 0;">
-  <p style="margin-bottom: 5px;"><strong>🤷‍♀️ 계산 로직</strong></p>
-  <p style="margin-bottom: 5px;">Bloom = 원두량의 3배</p>
-  <p style="margin-bottom: 5px;">First Pour = (원두량 X 비율 - Bloom) / 3 + Second Pour에서 반올림 및 빼기해서 모자란 물의 양</p>
-  <p style="margin-bottom: 5px;">Second Pour = (원두량 X 비율 - Bloom) / 3 을 반올림하고 원두가 30g 이상인 경우 -20g, 30g 미만인 경우 -10g</p>
-  <p>Third Pour = (원두량 X 비율 - Bloom) / 3</p>
-</div>
+</body>
+</html>
+
+
 
 
 
