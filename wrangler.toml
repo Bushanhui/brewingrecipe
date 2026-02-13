@@ -1,0 +1,8 @@
+name = "brewingrecipe"
+compatibility_date = "2024-12-01"
+pages_build_output_dir = "./public"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "brewingrecipe-db"
+database_id = "<YOUR_D1_DATABASE_ID>"  # wrangler d1 create 후 여기에 ID 입력

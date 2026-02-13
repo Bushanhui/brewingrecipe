@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>휘뚜루마뚜루 브루잉 계산기</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <div class="container-fluid p-0">
+    <div class="hero-image"></div>
+  </div>
+
+  <form id="coffee-form">
+    <div class="form-group">
+      <label for="recipe-select">📋 레시피 선택</label>
+      <select id="recipe-select" required>
+        <option value="">-- 레시피를 선택하세요 --</option>
+      </select>
+      <div class="recipe-description" id="recipe-description"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="bean-input">🟤 Coffee Bean Weight (g)</label>
+      <input type="number" id="bean-input" step="0.1" min="0" required>
+    </div>
+
+    <div class="form-group">
+      <label for="ratio-input">☕ Coffee to Water Ratio</label>
+      <input type="number" id="ratio-input" step="0.1" min="1" max="100" required>
+    </div>
+
+    <button type="submit">Calculate</button>
+  </form>
+
+  <div class="results">
+    <h2>Results</h2>
+    <ul id="results-list"></ul>
+  </div>
+
+  <div class="formula-info" id="formula-info"></div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
