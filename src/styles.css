@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Timeline connector line */
+.step-line {
+  @apply relative pl-8;
+}
+
+.step-line::before {
+  content: '';
+  @apply absolute left-3 top-0 bottom-0 w-0.5 bg-accent;
+}
+
+.step-line:last-child::before {
+  @apply bottom-1/2;
+}
+
+/* Icon gradient */
+.icon-gradient {
+  background: linear-gradient(135deg, #a67c52, #78421b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Step dot on timeline */
+.step-dot {
+  @apply absolute left-1.5 w-3 h-3 rounded-full bg-secondary border-2 border-background-light;
+  top: 0.375rem;
+}
+
+.dark .step-dot {
+  @apply border-background-dark;
+}
+
+/* Dripper tab active state */
+.dripper-tab.active {
+  @apply bg-primary text-white shadow-md;
+}
+
+.dripper-tab {
+  @apply px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer;
+  @apply bg-accent/30 text-primary hover:bg-accent/50;
+}
+
+.dark .dripper-tab {
+  @apply bg-white/10 text-mocha hover:bg-white/20;
+}
+
+.dark .dripper-tab.active {
+  @apply bg-secondary text-white;
+}
+
+/* Base body styles */
+body {
+  @apply bg-background-light text-gray-800 font-sans transition-colors duration-300;
+}
+
+.dark body {
+  @apply bg-background-dark text-gray-200;
+}

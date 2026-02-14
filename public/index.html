@@ -1,46 +1,111 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <title>휘뚜루마뚜루 브루잉 계산기</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brewing Calculator</title>
+  <link href="/css/tailwind.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
 </head>
+<body class="min-h-screen bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200 transition-colors duration-300">
 
-<body>
-
-  <div class="container-fluid p-0">
-    <div class="hero-image"></div>
-  </div>
-
-  <form id="coffee-form">
-    <div class="form-group">
-      <label for="recipe-select">📋 레시피 선택</label>
-      <select id="recipe-select" required>
-        <option value="">-- 레시피를 선택하세요 --</option>
-      </select>
-      <div class="recipe-description" id="recipe-description"></div>
+  <!-- Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-background-light/80 dark:bg-background-dark/80 border-b border-accent/20">
+    <div class="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined icon-gradient text-2xl">coffee</span>
+        <h1 class="text-lg font-bold text-primary dark:text-mocha">Brewing Calculator</h1>
+      </div>
+      <button id="dark-toggle" class="p-2 rounded-full hover:bg-accent/20 transition-colors" aria-label="Toggle dark mode">
+        <span class="material-symbols-outlined text-primary dark:text-mocha dark-icon">dark_mode</span>
+        <span class="material-symbols-outlined text-primary dark:text-mocha light-icon hidden">light_mode</span>
+      </button>
     </div>
+  </header>
 
-    <div class="form-group">
-      <label for="bean-input">🟤 Coffee Bean Weight (g)</label>
-      <input type="number" id="bean-input" step="0.1" min="0" required>
-    </div>
+  <main class="max-w-lg mx-auto px-4 py-6 space-y-6">
 
-    <div class="form-group">
-      <label for="ratio-input">☕ Coffee to Water Ratio</label>
-      <input type="number" id="ratio-input" step="0.1" min="1" max="100" required>
-    </div>
+    <!-- Dripper Tabs -->
+    <section>
+      <div id="dripper-tabs" class="flex gap-2 justify-center flex-wrap">
+        <button class="dripper-tab active" data-dripper="v60">
+          <span class="material-symbols-outlined text-sm align-middle mr-1">filter_alt</span>V60
+        </button>
+        <button class="dripper-tab" data-dripper="origami">
+          <span class="material-symbols-outlined text-sm align-middle mr-1">hexagon</span>Origami
+        </button>
+        <button class="dripper-tab" data-dripper="switch">
+          <span class="material-symbols-outlined text-sm align-middle mr-1">toggle_on</span>Switch
+        </button>
+      </div>
+    </section>
 
-    <button type="submit">Calculate</button>
-  </form>
+    <!-- Input Card -->
+    <section class="bg-white dark:bg-white/5 rounded-2xl shadow-sm border border-accent/20 p-5 space-y-4">
+      <form id="coffee-form" class="space-y-4">
+        <!-- Recipe Select -->
+        <div>
+          <label for="recipe-select" class="block text-sm font-medium text-secondary dark:text-mocha mb-1">
+            <span class="material-symbols-outlined text-sm align-middle mr-1">menu_book</span>Recipe
+          </label>
+          <select id="recipe-select" required
+            class="w-full px-3 py-2.5 rounded-xl border border-accent/30 bg-background-light dark:bg-background-dark dark:border-white/10 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition-all">
+            <option value="">-- Select a recipe --</option>
+          </select>
+          <p id="recipe-description" class="text-xs text-gray-500 dark:text-gray-400 mt-1 min-h-[1.2em]"></p>
+        </div>
 
-  <div class="results">
-    <h2>Results</h2>
-    <ul id="results-list"></ul>
-  </div>
+        <!-- Bean Weight -->
+        <div>
+          <label for="bean-input" class="block text-sm font-medium text-secondary dark:text-mocha mb-1">
+            <span class="material-symbols-outlined text-sm align-middle mr-1">scale</span>Coffee (g)
+          </label>
+          <input type="number" id="bean-input" step="0.1" min="0" required placeholder="e.g. 20"
+            class="w-full px-3 py-2.5 rounded-xl border border-accent/30 bg-background-light dark:bg-background-dark dark:border-white/10 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition-all">
+        </div>
 
-  <div class="formula-info" id="formula-info"></div>
+        <!-- Ratio -->
+        <div>
+          <label for="ratio-input" class="block text-sm font-medium text-secondary dark:text-mocha mb-1">
+            <span class="material-symbols-outlined text-sm align-middle mr-1">water_drop</span>Ratio (1 : ?)
+          </label>
+          <input type="number" id="ratio-input" step="0.1" min="1" max="100" required placeholder="e.g. 16"
+            class="w-full px-3 py-2.5 rounded-xl border border-accent/30 bg-background-light dark:bg-background-dark dark:border-white/10 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition-all">
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+          class="w-full py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-medium text-sm shadow-sm transition-all active:scale-[0.98]">
+          <span class="material-symbols-outlined text-sm align-middle mr-1">calculate</span>Calculate
+        </button>
+      </form>
+    </section>
+
+    <!-- Results: Brew Roadmap (Timeline) -->
+    <section id="brew-roadmap" class="hidden">
+      <div class="bg-white dark:bg-white/5 rounded-2xl shadow-sm border border-accent/20 p-5">
+        <h2 class="text-sm font-semibold text-primary dark:text-mocha mb-4 flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">route</span>Brew Roadmap
+        </h2>
+        <div id="timeline-container" class="space-y-0">
+          <!-- Timeline steps rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Formula Info (Footer) -->
+    <section id="formula-content" class="hidden">
+      <div class="bg-white/50 dark:bg-white/5 rounded-2xl border border-accent/10 p-4">
+        <h3 class="text-xs font-semibold text-secondary dark:text-mocha mb-2 flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">function</span>Calculation Logic
+        </h3>
+        <div id="formula-steps" class="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+          <!-- Formula rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <script src="/js/app.js"></script>
 </body>

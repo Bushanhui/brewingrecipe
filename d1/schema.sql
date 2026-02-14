@@ -6,7 +6,8 @@ CREATE TABLE recipes (
   name TEXT NOT NULL,
   author TEXT NOT NULL,
   description TEXT,
-  default_ratio REAL NOT NULL
+  default_ratio REAL NOT NULL,
+  dripper TEXT
 );
 
 CREATE TABLE recipe_steps (
@@ -17,5 +18,7 @@ CREATE TABLE recipe_steps (
   type TEXT NOT NULL,
   amount_method TEXT NOT NULL,
   amount_value REAL,
+  wait_seconds INTEGER,
+  description TEXT,
   FOREIGN KEY (recipe_id) REFERENCES recipes(id)
 );
